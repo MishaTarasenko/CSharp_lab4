@@ -1,0 +1,30 @@
+﻿<UserControl x:Class="Tarasenko_lab4.View.MainView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Tarasenko_lab4.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            
+        </Grid>
+        <DataGrid Grid.Row="1" ItemsSource="{Binding Users, Mode=OneWay}" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="First Name" Binding="{Binding FirstName}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Last Name" Binding="{Binding LastName}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Email" Binding="{Binding Email}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Birth date" Binding="{Binding BirthDate}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Is adult" Binding="{Binding IsAdult}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Sun  sign" Binding="{Binding SunSign}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Chinese sign " Binding="{Binding ChineseSign}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Is today birthday" Binding="{Binding IsBirthday}"></DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>
