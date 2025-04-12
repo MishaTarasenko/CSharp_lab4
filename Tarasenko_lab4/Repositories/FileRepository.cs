@@ -6,17 +6,36 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Tarasenko_lab4.Model;
+using Tarasenko_lab4.Services;
+using Tarasenko_lab4.Utils;
 
 namespace Tarasenko_lab4.Repositories
 {
     internal class FileRepository
     {
-        private static readonly string BaseFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "CSKMAStorage");
+        private static readonly string BaseFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "PersonStorage");
+        private bool _isInitialized = false;
 
         public FileRepository()
         {
             if (!Directory.Exists(BaseFolder))
+            {
                 Directory.CreateDirectory(BaseFolder);
+                Task.Run(() => InitializeAsync());
+            }
+        }
+
+        public async Task InitializeAsync()
+        {
+            if (!_isInitialized)
+            {
+                var persons = UserCreator.GetPersons();
+                foreach (var person in persons)
+                {
+                    await AddOrUpdateAsync(person);
+                }
+                _isInitialized = true;
+            }
         }
 
         public async Task AddOrUpdateAsync(DBPerson person)
@@ -29,13 +48,27 @@ namespace Tarasenko_lab4.Repositories
             }
         }
 
+        public async Task<DBPerson> GetAsync(string email)
+        {
+            string filePath = GetFilePath(email);
+            if (!File.Exists(filePath))
+                return null;
+            string jsonObj;
+            using (StreamReader sr = new StreamReader(filePath))
+            {
+                jsonObj = await sr.ReadToEndAsync();
+            }
+
+            return JsonSerializer.Deserialize<DBPerson>(jsonObj);
+        }
+
         public async Task<List<DBPerson>> GetAllAsync()
         {
             var res = new List<DBPerson>();
 
             foreach (var file in Directory.EnumerateFiles(BaseFolder))
             {
-                await Task.Delay(2000);
+                await Task.Delay(200);
                 string jsonObj;
                 using (StreamReader sr = new StreamReader(file))
                 {
@@ -48,12 +81,12 @@ namespace Tarasenko_lab4.Repositories
             return res;
         }
 
-        public async Task<bool> DeleteAsync(DBPerson person)
+        public async Task<bool> DeleteAsync(string email)
         {
-            if (person == null)
+            if (string.IsNullOrEmpty(email))
                 return false;
 
-            string filePath = GetFilePath(person);
+            string filePath = GetFilePath(email);
 
             if (!File.Exists(filePath))
                 return false;
@@ -69,43 +102,14 @@ namespace Tarasenko_lab4.Repositories
             }
         }
 
-        public async Task<bool> UpdateAsync(DBPerson originalPerson, DBPerson updatedData)
-        {
-            if (originalPerson == null || updatedData == null)
-                return false;
-
-            string originalFilePath = GetFilePath(originalPerson);
-            string newFilePath = GetFilePath(updatedData);
-
-            if (!File.Exists(originalFilePath))
-                return false;
-
-            try
-            {
-                if (originalFilePath != newFilePath)
-                {
-                    if (File.Exists(newFilePath))
-                    {
-                        File.Delete(newFilePath);
-                    }
-
-                    File.Move(originalFilePath, newFilePath);
-                }
-
-                string jsonObj = JsonSerializer.Serialize(updatedData);
-                await File.WriteAllTextAsync(newFilePath, jsonObj);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Update failed: {ex.Message}");
-                return false;
-            }
-        }
-
         private string GetFilePath(DBPerson person)
         {
             return Path.Combine(BaseFolder, person.Email);
+        }
+
+        private string GetFilePath(string email)
+        {
+            return Path.Combine(BaseFolder, email);
         }
     }
 }

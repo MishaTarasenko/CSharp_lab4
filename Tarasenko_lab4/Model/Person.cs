@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Tarasenko_lab4.Model.Enums;
+using Tarasenko_lab4.Utils;
 using Tarasenko_lab4.Services;
 using Tarasenko_lab4.Validators;
 
@@ -34,10 +35,10 @@ namespace Tarasenko_lab4.Model
             _email = email;
             _birthDate = birthDate;
 
-            _isAdult = PersonService.IsAdult(_birthDate);
+            _isAdult = PersonUtils.IsAdult(_birthDate);
             _sunSign =  WesternZodiacService.GetWesternZodiac(_birthDate);
             _chineseSign = ChineseZodiacService.GetChineseZodiac(_birthDate);
-            _isBirthday = PersonService.IsTodayBirthday(_birthDate);
+            _isBirthday = PersonUtils.IsTodayBirthday(_birthDate);
         }
 
         public Person(string name, string lastName, string email)

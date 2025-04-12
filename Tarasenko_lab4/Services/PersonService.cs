@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tarasenko_lab4.Exceptions;
 using Tarasenko_lab4.Model;
+using Tarasenko_lab4.Repositories;
 
 namespace Tarasenko_lab4.Services
 {
@@ -11,35 +13,28 @@ namespace Tarasenko_lab4.Services
     {
         private static FileRepository Repository = new FileRepository();
 
-        public async Task<List<Person>> GetAllUsers()
+        public async Task<List<Person>> GetAllUsersAsync()
         {
-            var res = new List<Person>();
+            var dbPersons = await Repository.GetAllAsync();
+            return dbPersons.Select(p => new Person(p.FirstName, p.LastName, p.Email, p.BirthDate)).ToList();
+        }
 
-            foreach (var dbUser in await Repository.GetAllAsync())
+        public async Task<bool> AddOrUpdatePerson(Person person)
+        {
+            DBPerson dBPerson = await Repository.GetAsync(person.Email);
+            if (dBPerson != null)
             {
-                res.Add(new Person(dbUser.Guid, dbUser.Login, dbUser.FirstName, dbUser.LastName));
+                throw new PersonAlreadyExistsException();
             }
-            return res;
+            var dbPerson = new DBPerson(person.Name, person.LastName, person.Email, person.BirthDate);
+            await Repository.AddOrUpdateAsync(dbPerson);
+            return true;
         }
 
-        public static bool IsAdult(DateTime birthDate)
+        public async Task<bool> DeletePersonAsync(string email)
         {
-            return GetAge(birthDate) >= 18;
-        }
-
-        public static bool IsTodayBirthday(DateTime birthDate)
-        {
-            return birthDate.Day == DateTime.Today.Day && birthDate.Month == DateTime.Today.Month;
-        }
-
-        public static int GetAge(DateTime date)
-        {
-            int age = DateTime.Today.Year - date.Year;
-            if (date.Date > DateTime.Today.AddYears(-age))
-            {
-                age--;
-            }
-            return age;
+            await Repository.DeleteAsync(email);
+            return true;
         }
     }
 }
