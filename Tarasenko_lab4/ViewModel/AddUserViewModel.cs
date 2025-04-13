@@ -21,6 +21,7 @@ namespace Tarasenko_lab4.ViewModel
         private readonly PersonService _personService;
         private RelayCommand _addCommand;
         private RelayCommand _cancelCommand;
+        private Action _saveAndGoToMainView;
         private Action _goToMainView;
 
         private string _firstName;
@@ -28,8 +29,9 @@ namespace Tarasenko_lab4.ViewModel
         private string _email;
         private DateTime _birthDate;
 
-        public AddUserViewModel(Action goToMainView)
+        public AddUserViewModel(Action saveAndGoToMainView, Action goToMainView)
         {
+            _saveAndGoToMainView = saveAndGoToMainView;
             _goToMainView = goToMainView;
             _personService = new PersonService();
 
@@ -83,8 +85,6 @@ namespace Tarasenko_lab4.ViewModel
 
         public RelayCommand CancelCommand => _cancelCommand ??= new RelayCommand(_goToMainView);
 
-        public MainNavigationTypes ViewType => MainNavigationTypes.AddUser;
-
         private async void AddPersonAsync()
         {
             if (!ValidatePerson()) return;
@@ -106,7 +106,7 @@ namespace Tarasenko_lab4.ViewModel
             finally
             {
                 LoaderManager.Instance.HideLoader();
-                _goToMainView.Invoke();
+                _saveAndGoToMainView.Invoke();
             }
         }
 

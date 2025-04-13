@@ -22,6 +22,7 @@ namespace Tarasenko_lab4.ViewModel
         private Person _person;
         private RelayCommand _saveCommand;
         private RelayCommand _cancelCommand;
+        private Action _editAndGoToMainView;
         private Action _goToMainView;
 
         private string _firstName;
@@ -29,8 +30,9 @@ namespace Tarasenko_lab4.ViewModel
         private string _email;
         private DateTime _birthDate;
 
-        public EditUserViewModel(Action goToMainView, Person personToEdit)
+        public EditUserViewModel(Action editAndGoToMainView, Action goToMainView, Person personToEdit)
         {
+            _editAndGoToMainView = editAndGoToMainView;
             _goToMainView = goToMainView;
             _personService = new PersonService();
 
@@ -79,8 +81,6 @@ namespace Tarasenko_lab4.ViewModel
 
         public RelayCommand CancelCommand => _cancelCommand ??= new RelayCommand(_goToMainView);
 
-        public MainNavigationTypes ViewType => MainNavigationTypes.EditUser;
-
         private async void EditPersonAsync()
         {
             if (!ValidatePerson()) return;
@@ -98,7 +98,7 @@ namespace Tarasenko_lab4.ViewModel
             finally
             {
                 LoaderManager.Instance.HideLoader();
-                _goToMainView.Invoke();
+                _editAndGoToMainView.Invoke();
             }
         }
 

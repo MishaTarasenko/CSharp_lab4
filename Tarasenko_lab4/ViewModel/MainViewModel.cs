@@ -76,8 +76,6 @@ namespace Tarasenko_lab4.ViewModel
 
         public RelayCommand FilterCommand => _filterCommand ??= new RelayCommand(FilterPersonsAsync);
 
-        public MainNavigationTypes ViewType => MainNavigationTypes.Main;
-
         private bool hasPerson()
         {
             return SelectedPerson != null;

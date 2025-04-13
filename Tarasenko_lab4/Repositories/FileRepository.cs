@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Tarasenko_lab4.Managers;
 using Tarasenko_lab4.Model;
 using Tarasenko_lab4.Services;
 using Tarasenko_lab4.Utils;
@@ -13,32 +14,30 @@ namespace Tarasenko_lab4.Repositories
 {
     internal class FileRepository
     {
-        //private static readonly string BaseFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "PersonStorage");
-        private static readonly string BaseFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "PersonStorage");
-        private bool _isInitialized = false;
+        private static readonly string BaseFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "PersonStorage");
 
         public FileRepository()
         {
             if (!Directory.Exists(BaseFolder))
             {
                 Directory.CreateDirectory(BaseFolder);
-                Task.Run(() => InitializeAsync());
+                Initialize();
             }
         }
 
-        public async Task InitializeAsync()
+        public void Initialize()
         {
             var persons = UserCreator.GetPersons();
 
             List<Task> tasks = [];
             foreach (var person in persons)
             {
-                _ = tasks.Append(AddOrUpdateAsync(person));
-            }
+                string jsonObj = JsonSerializer.Serialize(person);
 
-            foreach (var task in tasks)
-            {
-                await task;
+                using (StreamWriter sw = new StreamWriter(GetFilePath(person), false))
+                {
+                    sw.Write(jsonObj);
+                }
             }
         }
 

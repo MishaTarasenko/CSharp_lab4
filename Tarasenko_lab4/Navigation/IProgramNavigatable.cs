@@ -9,13 +9,5 @@ namespace Tarasenko_lab4.Navigation
 {
     public interface INavigatable
     {
-        public MainNavigationTypes ViewType { get; }
-    }
-
-    public enum MainNavigationTypes
-    {
-        Main,
-        AddUser,
-        EditUser
     }
 }

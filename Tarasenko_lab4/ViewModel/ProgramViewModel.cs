@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using Tarasenko_lab4.Managers;
+using Tarasenko_lab4.Model.Enums;
 using Tarasenko_lab4.Navigation;
 
 namespace Tarasenko_lab4.ViewModel
@@ -62,6 +63,9 @@ namespace Tarasenko_lab4.ViewModel
             {
                 CurrentViewModel = _mainViewModel;
                 await _mainViewModel.LoadPersonsAsync();
+            },() =>
+            {
+                CurrentViewModel = _mainViewModel;
             });
         }
 
@@ -73,6 +77,9 @@ namespace Tarasenko_lab4.ViewModel
             {
                 CurrentViewModel = _mainViewModel;
                 await _mainViewModel.LoadPersonsAsync();
+            }, () =>
+            {
+                CurrentViewModel = _mainViewModel;
             }, _mainViewModel.SelectedPerson);
         }
 
