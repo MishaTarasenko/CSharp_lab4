@@ -34,10 +34,10 @@
                  HorizontalScrollBarVisibility="Disabled"
                  SelectionMode="Single">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Name" Binding="{Binding Name}" IsReadOnly="False"/>
-                    <DataGridTextColumn Header="Last Name" Binding="{Binding LastName}" IsReadOnly="False"/>
-                    <DataGridTextColumn Header="Email" Binding="{Binding Email}" IsReadOnly="False"/>
-                    <DataGridTextColumn Header="Birth Date" Binding="{Binding BirthDate, StringFormat=d}" IsReadOnly="False"/>
+                    <DataGridTextColumn Header="Name" Binding="{Binding Name}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Last Name" Binding="{Binding LastName}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Email" Binding="{Binding Email}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Birth Date" Binding="{Binding BirthDate, StringFormat=d}" IsReadOnly="True"/>
 
                     <DataGridTextColumn Header="Is Adult" Binding="{Binding IsAdult, Mode=OneWay}" IsReadOnly="True"/>
                     <DataGridTextColumn Header="Sun Sign" Binding="{Binding SunSign, Mode=OneWay}" IsReadOnly="True"/>
