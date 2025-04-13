@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Tarasenko_lab4.Constants;
 using Tarasenko_lab4.Exceptions;
-using Tarasenko_lab4.Services;
+using Tarasenko_lab4.Utils;
 
 namespace Tarasenko_lab4.Validators
 {
@@ -18,7 +18,7 @@ namespace Tarasenko_lab4.Validators
             {
                 throw new FutureBirthDateException();
             }
-            if (PersonService.GetAge(birthDate) > ApplicationConstants.AGE_THRESHOLD)
+            if (PersonUtils.GetAge(birthDate) > ApplicationConstants.AGE_THRESHOLD)
             {
                 throw new BirthDateOutOfRangeException();
             }

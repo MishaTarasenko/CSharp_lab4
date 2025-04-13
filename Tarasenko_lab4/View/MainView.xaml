@@ -8,23 +8,43 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition></RowDefinition>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
-            
-        </Grid>
-        <DataGrid Grid.Row="1" ItemsSource="{Binding Users, Mode=OneWay}" AutoGenerateColumns="False">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="First Name" Binding="{Binding FirstName}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Last Name" Binding="{Binding LastName}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Email" Binding="{Binding Email}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Birth date" Binding="{Binding BirthDate}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Is adult" Binding="{Binding IsAdult}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Sun  sign" Binding="{Binding SunSign}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Chinese sign " Binding="{Binding ChineseSign}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Is today birthday" Binding="{Binding IsBirthday}"></DataGridTextColumn>
-            </DataGrid.Columns>
-        </DataGrid>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="5">
+            <Button Content="Add" Command="{Binding AddCommand}" Margin="5" Width="80"/>
+            <Button Content="Edit" Command="{Binding EditCommand}" Margin="5" Width="80"/>
+            <Button Content="Delete" Command="{Binding DeleteCommand}" Margin="5" Width="80"/>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="5">
+            <TextBox Text="{Binding FilterText, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="5"/>
+            <Button Content="Filter" Command="{Binding FilterCommand}" Margin="5" Width="80"/>
+        </StackPanel>
+
+        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+            <DataGrid ItemsSource="{Binding Persons}" 
+                 SelectedItem="{Binding SelectedPerson, Mode=TwoWay}"
+                 AutoGenerateColumns="False"
+                 CanUserAddRows="False"
+                 CanUserDeleteRows="False"
+                 VerticalScrollBarVisibility="Disabled"
+                 HorizontalScrollBarVisibility="Disabled"
+                 SelectionMode="Single">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Name" Binding="{Binding Name}" IsReadOnly="False"/>
+                    <DataGridTextColumn Header="Last Name" Binding="{Binding LastName}" IsReadOnly="False"/>
+                    <DataGridTextColumn Header="Email" Binding="{Binding Email}" IsReadOnly="False"/>
+                    <DataGridTextColumn Header="Birth Date" Binding="{Binding BirthDate, StringFormat=d}" IsReadOnly="False"/>
+
+                    <DataGridTextColumn Header="Is Adult" Binding="{Binding IsAdult, Mode=OneWay}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Sun Sign" Binding="{Binding SunSign, Mode=OneWay}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Chinese Sign" Binding="{Binding ChineseSign, Mode=OneWay}" IsReadOnly="True"/>
+                    <DataGridCheckBoxColumn Header="Is Birthday" Binding="{Binding IsBirthday, Mode=OneWay}" IsReadOnly="True"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </ScrollViewer>
     </Grid>
 </UserControl>

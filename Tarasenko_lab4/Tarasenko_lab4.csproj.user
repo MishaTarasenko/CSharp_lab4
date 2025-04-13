@@ -2,13 +2,22 @@
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup />
   <ItemGroup>
+    <Compile Update="Controls\TextBlockWithCaption.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Controls\TextBoxWithCaption.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="View\AddUserView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="View\EditUserView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="View\MainView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\ProgramView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

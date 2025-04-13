@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Tarasenko_lab4.View.AddUserView"
+﻿<UserControl x:Class="Tarasenko_lab4.View.EditUserView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -25,28 +25,28 @@
 
         <controls:TextBoxWithCaption 
             Grid.Row="1" 
-            Caption="Last Name:" 
+            Caption="Last name:" 
             Text="{Binding LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
         </controls:TextBoxWithCaption>
 
-        <controls:TextBoxWithCaption 
+        <controls:TextBlockWithCaption 
             Grid.Row="2" 
             Caption="Email:" 
-            Text="{Binding Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-        </controls:TextBoxWithCaption>
+            Text="{Binding Email, Mode=OneWay}">
+        </controls:TextBlockWithCaption>
 
         <TextBlock 
-        Grid.Row="3" 
-        HorizontalAlignment="Left" 
-        VerticalAlignment="Center" 
-        Text="Birth date:" FontSize="11" 
-        Margin="5, 5, 5, 2" 
-        Foreground="Gray">
+                Grid.Row="3" 
+                HorizontalAlignment="Left" 
+                VerticalAlignment="Center" 
+                Text="Birth date:" FontSize="11" 
+                Margin="5, 5, 5, 2" 
+                Foreground="Gray">
         </TextBlock>
-        <DatePicker Grid.Row="4" SelectedDate="{Binding BirthDate, Mode=TwoWay}" Margin="0,0,0,10"/>
+        <DatePicker Grid.Row="4" SelectedDate="{Binding BirthDate}" Margin="0,0,0,10"/>
 
         <StackPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Content="Save" Command="{Binding AddCommand}" Margin="5" Width="80"/>
+            <Button Content="Save" Command="{Binding SaveCommand}" Margin="5" Width="80"/>
             <Button Content="Cancel" Command="{Binding CancelCommand}" Margin="5" Width="80"/>
         </StackPanel>
     </Grid>

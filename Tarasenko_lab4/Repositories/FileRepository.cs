@@ -13,7 +13,8 @@ namespace Tarasenko_lab4.Repositories
 {
     internal class FileRepository
     {
-        private static readonly string BaseFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "PersonStorage");
+        //private static readonly string BaseFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "PersonStorage");
+        private static readonly string BaseFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "PersonStorage");
         private bool _isInitialized = false;
 
         public FileRepository()
@@ -27,19 +28,23 @@ namespace Tarasenko_lab4.Repositories
 
         public async Task InitializeAsync()
         {
-            if (!_isInitialized)
+            var persons = UserCreator.GetPersons();
+
+            List<Task> tasks = [];
+            foreach (var person in persons)
             {
-                var persons = UserCreator.GetPersons();
-                foreach (var person in persons)
-                {
-                    await AddOrUpdateAsync(person);
-                }
-                _isInitialized = true;
+                _ = tasks.Append(AddOrUpdateAsync(person));
+            }
+
+            foreach (var task in tasks)
+            {
+                await task;
             }
         }
 
         public async Task AddOrUpdateAsync(DBPerson person)
         {
+            await Task.Delay(500);
             string jsonObj = JsonSerializer.Serialize(person);
 
             using (StreamWriter sw = new StreamWriter(GetFilePath(person), false))
@@ -68,7 +73,7 @@ namespace Tarasenko_lab4.Repositories
 
             foreach (var file in Directory.EnumerateFiles(BaseFolder))
             {
-                await Task.Delay(200);
+                await Task.Delay(50);
                 string jsonObj;
                 using (StreamReader sr = new StreamReader(file))
                 {
@@ -93,6 +98,7 @@ namespace Tarasenko_lab4.Repositories
 
             try
             {
+                await Task.Delay(500);
                 await Task.Run(() => File.Delete(filePath));
                 return true;
             }

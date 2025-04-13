@@ -10,7 +10,7 @@ using Tarasenko_lab4.Validators;
 
 namespace Tarasenko_lab4.Model
 {
-    internal class Person
+    public class Person
     {
 
         private string _name;
@@ -18,10 +18,10 @@ namespace Tarasenko_lab4.Model
         private string _email;
         private DateTime _birthDate;
 
-        private readonly bool _isAdult;
-        private readonly WesternZodiacSign _sunSign;
-        private readonly ChineseZodiacSign _chineseSign;
-        private readonly bool _isBirthday;
+        private bool _isAdult;
+        private WesternZodiacSign _sunSign;
+        private ChineseZodiacSign _chineseSign;
+        private bool _isBirthday;
 
         public Person(string name, string lastName, string email, DateTime birthDate)
         {

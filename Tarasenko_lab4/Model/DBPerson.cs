@@ -9,14 +9,14 @@ namespace Tarasenko_lab4.Model
 {
     internal class DBPerson
     {
-        public string FirstName { get; }
+        public string Name { get; }
         public string LastName { get; }
         public string Email { get; }
         public DateTime BirthDate { get; }
 
         public DBPerson(string name, string lastName, string email, DateTime birthDate)
         {
-            FirstName = name;
+            Name = name;
             LastName = lastName;
             Email = email;
             BirthDate = birthDate;

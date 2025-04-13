@@ -7,8 +7,15 @@ using Tarasenko_lab4.Model.Enums;
 
 namespace Tarasenko_lab4.Navigation
 {
-    internal interface IProgramNavigatable
+    public interface INavigatable
     {
-        public ProgramNavigationType ViewModelType { get; }
+        public MainNavigationTypes ViewType { get; }
+    }
+
+    public enum MainNavigationTypes
+    {
+        Main,
+        AddUser,
+        EditUser
     }
 }

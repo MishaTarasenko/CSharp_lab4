@@ -8,6 +8,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Tarasenko_lab4.ViewModel;
+using Tarasenko_lab4.View;
 
 namespace Tarasenko_lab4;
 
@@ -19,5 +21,7 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
+        DataContext = new ProgramViewModel();
+        Content = new ProgramView();
     }
 }

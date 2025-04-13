@@ -16,10 +16,10 @@ namespace Tarasenko_lab4.Services
         public async Task<List<Person>> GetAllUsersAsync()
         {
             var dbPersons = await Repository.GetAllAsync();
-            return dbPersons.Select(p => new Person(p.FirstName, p.LastName, p.Email, p.BirthDate)).ToList();
+            return dbPersons.Select(p => new Person(p.Name, p.LastName, p.Email, p.BirthDate)).ToList();
         }
 
-        public async Task<bool> AddOrUpdatePerson(Person person)
+        public async Task<bool> AddPerson(Person person)
         {
             DBPerson dBPerson = await Repository.GetAsync(person.Email);
             if (dBPerson != null)
@@ -29,6 +29,18 @@ namespace Tarasenko_lab4.Services
             var dbPerson = new DBPerson(person.Name, person.LastName, person.Email, person.BirthDate);
             await Repository.AddOrUpdateAsync(dbPerson);
             return true;
+        }
+
+        public async Task<bool> UpdatePerson(Person person)
+        {
+            DBPerson dBPerson = await Repository.GetAsync(person.Email);
+            if (dBPerson != null)
+            {
+                var dbPerson = new DBPerson(person.Name, person.LastName, person.Email, person.BirthDate);
+                await Repository.AddOrUpdateAsync(dbPerson);
+                return true;
+            }
+            return false;
         }
 
         public async Task<bool> DeletePersonAsync(string email)
